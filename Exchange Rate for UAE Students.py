@@ -66,8 +66,7 @@ if threshold > 0:
 
 st.subheader("Market Commentary")
 st.markdown("""
-*[Partner's written commentary goes here — replace this placeholder text   
-once they've written it up.]*
+*[Walid's Commentary Here]*
 """)
 
 if st.button("Refresh Now"):
