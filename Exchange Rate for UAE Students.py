@@ -27,16 +27,14 @@ def load_history():
 def calc_daily_change(history_df, current_rate):
     if len(history_df) < 2:
         return 0.0
-    # Find the rate from roughly 24h ago
     cutoff = datetime.now() - pd.Timedelta(hours=24)
     past_rows = history_df[history_df["timestamp"] <= cutoff]
     if past_rows.empty:
-        old_rate = history_df.iloc[0]["rate"]  # fallback: earliest we have
+        old_rate = history_df.iloc[0]["rate"]
     else:
         old_rate = past_rows.iloc[-1]["rate"]
     return ((current_rate - old_rate) / old_rate) * 100
 
-# ─── UI ───────────────────────────────────────────────────
 st.title("GBP/AED Exchange Rate Tracker")
 
 BASE_CURRENCY = "GBP"
@@ -52,3 +50,7 @@ st.metric(
     value=f"{current_rate:.4f}",
     delta=f"{daily_change:.2f}%"
 )
+
+st.subheader("Historical Rate Trend")
+chart_data = history.set_index("timestamp")["rate"]
+st.line_chart(chart_data)
