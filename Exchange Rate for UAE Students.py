@@ -54,3 +54,21 @@ st.metric(
 st.subheader("Historical Rate Trend")
 chart_data = history.set_index("timestamp")["rate"]
 st.line_chart(chart_data)
+
+st.subheader("Rate Alert")
+threshold = st.number_input("Alert me when rate crosses:", value=0.0, step=0.01)
+
+if threshold > 0:
+    if current_rate >= threshold:
+        st.warning(f"⚠️ {BASE_CURRENCY}/{TARGET_CURRENCY} has crossed your threshold of {threshold:.4f} — currently at {current_rate:.4f}")
+    else:
+        st.info(f"Current rate {current_rate:.4f} is below your threshold of {threshold:.4f}")
+
+st.subheader("Market Commentary")
+st.markdown("""
+*[Partner's written commentary goes here — replace this placeholder text   
+once they've written it up.]*
+""")
+
+if st.button("Refresh Now"):
+    st.rerun()
